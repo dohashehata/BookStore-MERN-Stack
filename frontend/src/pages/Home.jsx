@@ -13,7 +13,7 @@ function Home() {
   useEffect(()=>{
     setloading(true)
     axios 
-    .get('http://localhost:3000/books')
+    .get('https://books-backend-delta.vercel.app/books')
     .then(response => {
       setbooks(response.data.data)
       setloading(false)
@@ -43,7 +43,7 @@ function Home() {
               <th className="border border-slate-600 rounded-md ">Operations</th>
             </tr>
           </thead>
-          <tbody>
+          {/* <tbody>
             {books.map((book,index)=>{
               <tr key={book.id} className='h-8'>
                 <td className="border border-slate-700 rounded-md text-center">{index+1}</td>
@@ -67,7 +67,32 @@ function Home() {
 
               </tr>
             })}
-          </tbody>
+          </tbody> */}
+<tbody>
+  {books.map((book, index) => {
+    return ( // Added return here
+      <tr key={book._id} className='h-8'>
+        <td className="border border-slate-700 rounded-md text-center">{index + 1}</td>
+        <td className="border border-slate-700 rounded-md text-center">{book.title}</td>
+        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{book.author}</td>
+        <td className="border border-slate-700 rounded-md text-center max-md:hidden">{book.publishYear}</td>
+        <td className="border border-slate-700 rounded-md text-center">
+          <div className='flex justify-center gap-x-4'>
+            <Link to={`/books/details/${book._id}`}>
+              <BsInfoCircle className='text-2xl text-green-800'/>
+            </Link>
+            <Link to={`/books/edit/${book._id}`}>
+              <AiOutlineEdit className='text-2xl text-yellow-600'/>
+            </Link>
+            <Link to={`/books/delete/${book._id}`}>
+              <MdOutlineDelete className='text-2xl text-yellow-600'/>
+            </Link>
+          </div>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
 
         </table>
       )}
